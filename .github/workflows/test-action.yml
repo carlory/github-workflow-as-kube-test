@@ -52,25 +52,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          # Post help message as a comment
-          HELP_MESSAGE="## Available Commands
-
-          Here are the available slash commands you can use:
-
-          - \`/help\` - Display this help message
-          - \`/woof\` - Make the bot bark! 🐕
-          - \`/bark\` - Another way to make the bot bark! 🐶
-          - \`/this-is-fine\` - Everything is fine! 🔥
-
-          The workflow will respond to these commands when posted as issue comments."
-
-          gh api \
-            --method POST \
+          # Post help message as a comment using GitHub API
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/${{ github.repository }}/issues/${ISSUE_NUMBER}/comments \
-            -f body="$HELP_MESSAGE"
+            "https://api.github.com/repos/$REPOSITORY/issues/$ISSUE_NUMBER/comments" \
+            -d '{"body":"## Available Commands\n\nHere are the available slash commands you can use:\n\n- `/help` - Display this help message\n- `/woof` - Make the bot bark! 🐕\n- `/bark` - Another way to make the bot bark! 🐶\n- `/this-is-fine` - Everything is fine! 🔥\n\nThe workflow will respond to these commands when posted as issue comments."}'
 
       - name: Run github-workflow-as-kube action
         id: test-action
