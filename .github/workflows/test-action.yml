@@ -28,12 +28,58 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check for slash command
+        id: check-command
+        if: github.event_name == 'issue_comment'
+        run: |
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          echo "comment_body=$COMMENT_BODY" >> $GITHUB_OUTPUT
+          
+          # Check if comment starts with /
+          if [[ "$COMMENT_BODY" == /* ]]; then
+            # Extract the command (first word after /)
+            COMMAND=$(echo "$COMMENT_BODY" | awk '{print $1}' | sed 's/^\///')
+            echo "is_command=true" >> $GITHUB_OUTPUT
+            echo "command=$COMMAND" >> $GITHUB_OUTPUT
+            echo "Detected command: /$COMMAND"
+          else
+            echo "is_command=false" >> $GITHUB_OUTPUT
+            echo "Not a slash command"
+          fi
+
+      - name: Handle /help command
+        if: github.event_name == 'issue_comment' && steps.check-command.outputs.is_command == 'true' && steps.check-command.outputs.command == 'help'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          # Post help message as a comment
+          HELP_MESSAGE="## Available Commands
+
+          Here are the available slash commands you can use:
+
+          - \`/help\` - Display this help message
+          - \`/woof\` - Make the bot bark! 🐕
+          - \`/bark\` - Another way to make the bot bark! 🐶
+          - \`/this-is-fine\` - Everything is fine! 🔥
+
+          The workflow will respond to these commands when posted as issue comments."
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/issues/${ISSUE_NUMBER}/comments \
+            -f body="$HELP_MESSAGE"
+
       - name: Run github-workflow-as-kube action
         id: test-action
+        if: github.event_name != 'issue_comment' || steps.check-command.outputs.is_command != 'true'
         uses: carlory/github-workflow-as-kube@main
         with:
           milliseconds: 1000
 
       - name: Print output
+        if: github.event_name != 'issue_comment' || steps.check-command.outputs.is_command != 'true'
         run: 'echo "Action output time: ${{ steps.test-action.outputs.time }}"'
 
