@@ -30,4 +30,5 @@ jobs:
           milliseconds: 1000
 
       - name: Print output
-        run: echo "Action output time: ${{ steps.test-action.outputs.time }}"
+        run: 'echo "Action output time: ${{ steps.test-action.outputs.time }}"'
+
