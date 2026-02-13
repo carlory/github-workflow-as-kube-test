@@ -1,0 +1,24 @@
+name: Test github-workflow-as-kube action
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run github-workflow-as-kube action
+        id: test-action
+        uses: carlory/github-workflow-as-kube@main
+        with:
+          milliseconds: 1000
+
+      - name: Print output
+        run: echo "Action output time: ${{ steps.test-action.outputs.time }}"
