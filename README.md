@@ -10,14 +10,14 @@ The workflow file [`.github/workflows/test-action.yml`](.github/workflows/test-a
 
 - **Push events** to any branch
 - **Pull request events** to any branch
-- **Issue comment events** (created) - The action responds to slash commands via its plugin system
+- **Issue comment events** (created) - The action responds to slash commands like `/help`, `/woof`, `/bark` via its plugin system
 - **Manual trigger** via `workflow_dispatch`
 - **Scheduled** daily at midnight UTC
 - **Release events** (published, edited, deleted)
 - **Create/delete events** for branches/tags
 - **Repository dispatch** with type `trigger-test`
 
-The workflow uses the `carlory/github-workflow-as-kube@main` action with the `dog` and `help` plugins enabled.
+The workflow uses the `carlory/github-workflow-as-kube@main` action with the `help` and `dog` plugins enabled.
 
 ## Supported Commands
 
