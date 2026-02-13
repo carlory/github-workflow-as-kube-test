@@ -10,6 +10,7 @@ The workflow file [`.github/workflows/test-action.yml`](.github/workflows/test-a
 
 - **Push events** to any branch
 - **Pull request events** to any branch
+- **Issue comment events** (created) - allows responding to dog commands like `/woof`, `/bark`, `/this-is-fine`, etc.
 - **Manual trigger** via `workflow_dispatch`
 - **Scheduled** daily at midnight UTC
 - **Release events** (published, edited, deleted)
