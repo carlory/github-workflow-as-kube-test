@@ -32,8 +32,20 @@ jobs:
         id: test-action
         uses: carlory/github-workflow-as-kube@main
         with:
-          milliseconds: 1000
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          plugins: 'help,dog'
 
-      - name: Print output
-        run: 'echo "Action output time: ${{ steps.test-action.outputs.time }}"'
+      - name: Print outputs
+        run: |
+          echo "Event name: ${{ steps.test-action.outputs.event_name }}"
+          echo "Event GUID: ${{ steps.test-action.outputs.event_guid }}"
+          echo "Repository: ${{ steps.test-action.outputs.repository }}"
+          echo "Plugins enabled: ${{ steps.test-action.outputs.plugins_enabled }}"
+          if [ -n "${{ steps.test-action.outputs.help_action }}" ]; then
+            echo "Help action: ${{ steps.test-action.outputs.help_action }}"
+            echo "Issue number: ${{ steps.test-action.outputs.issue_number }}"
+          fi
+          if [ -n "${{ steps.test-action.outputs.dog_posted }}" ]; then
+            echo "Dog posted: ${{ steps.test-action.outputs.dog_posted }}"
+          fi
 

@@ -10,14 +10,31 @@ The workflow file [`.github/workflows/test-action.yml`](.github/workflows/test-a
 
 - **Push events** to any branch
 - **Pull request events** to any branch
-- **Issue comment events** (created) - allows responding to dog commands like `/woof`, `/bark`, `/this-is-fine`, etc.
+- **Issue comment events** (created) - The action responds to slash commands like `/help`, `/woof`, `/bark` via its plugin system
 - **Manual trigger** via `workflow_dispatch`
 - **Scheduled** daily at midnight UTC
 - **Release events** (published, edited, deleted)
 - **Create/delete events** for branches/tags
 - **Repository dispatch** with type `trigger-test`
 
-The workflow uses the `carlory/github-workflow-as-kube@main` action with the required `milliseconds` input set to 1000.
+The workflow uses the `carlory/github-workflow-as-kube@main` action with the `help` and `dog` plugins enabled.
+
+## Supported Commands
+
+The action supports the following slash commands when posted as issue comments:
+
+### Help Plugin Commands
+
+- `/help` - Adds the "help wanted" label to an issue
+- `/remove-help` - Removes the "help wanted" and "good first issue" labels
+- `/good-first-issue` - Adds both "good first issue" and "help wanted" labels
+- `/remove-good-first-issue` - Removes the "good first issue" label
+
+### Dog Plugin Commands
+
+- `/woof` - Posts a random dog image
+- `/bark` - Posts a random dog image
+- `/this-is-fine` - Posts the "this is fine" meme
 
 ## Triggering via Repository Dispatch
 
