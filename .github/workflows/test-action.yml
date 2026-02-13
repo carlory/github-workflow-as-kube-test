@@ -6,6 +6,15 @@ on:
   pull_request:
     branches: [ '**' ]
   workflow_dispatch:  # Manual trigger
+  schedule:
+    # Run every day at midnight UTC
+    - cron: '0 0 * * *'
+  release:
+    types: [published, edited, deleted]
+  create:
+  delete:
+  repository_dispatch:
+    types: [trigger-test]
 
 jobs:
   test-action:
