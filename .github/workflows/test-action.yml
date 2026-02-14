@@ -3,20 +3,37 @@ name: Test github-workflow-as-kube action
 on:
   push:
     branches: [ '**' ]
+
   pull_request:
     branches: [ '**' ]
+
+  # PR / Issue 对话区评论
   issue_comment:
     types: [created]
-  workflow_dispatch:  # Manual trigger
+
+  # PR Review 评论（整体 review）
+  pull_request_review:
+    types: [submitted]
+
+  # PR 代码行评论（diff 行评论）
+  pull_request_review_comment:
+    types: [created]
+
+  workflow_dispatch:
+
   schedule:
-    # Run every day at midnight UTC
     - cron: '0 0 * * *'
+
   release:
     types: [published, edited, deleted]
+
   create:
   delete:
+
   repository_dispatch:
     types: [trigger-test]
+
+
 
 jobs:
   test-action:
@@ -34,7 +51,7 @@ jobs:
         uses: carlory/github-workflow-as-kube@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          plugins: 'help,dog'
+          plugins: 'help,dog,hold'
 
       - name: Print outputs
         run: |
