@@ -54,6 +54,17 @@ Labels are automatically synchronized when:
 - Changes are pushed to the `.github/labels.yml` file
 - The workflow is manually triggered via `workflow_dispatch`
 
+### Initial Setup
+
+After merging this PR, labels need to be created. To do this:
+
+1. Go to the [Actions tab](../../actions/workflows/labels.yml)
+2. Click on "Label Management" workflow
+3. Click "Run workflow" button
+4. Select the `master` branch and click "Run workflow"
+
+This will create all the required labels defined in `.github/labels.yml`.
+
 ## Triggering via Repository Dispatch
 
 To trigger the workflow from an external service (like another repository), use the GitHub API:
