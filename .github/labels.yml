@@ -1,0 +1,15 @@
+# Standard labels for github-workflow-as-kube plugins
+# These labels are required for the hold plugin to function properly
+
+labels:
+  - name: 'do-not-merge/hold'
+    color: 'e11d21'
+    description: 'Indicates that a PR should not merge because someone has issued a /hold command.'
+  
+  - name: 'help wanted'
+    color: '006b75'
+    description: 'Denotes an issue that needs help from a contributor.'
+  
+  - name: 'good first issue'
+    color: '7057ff'
+    description: 'Denotes an issue ready for a new contributor.'
