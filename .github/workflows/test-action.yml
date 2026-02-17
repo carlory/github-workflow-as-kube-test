@@ -51,7 +51,7 @@ jobs:
         uses: carlory/github-workflow-as-kube@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          plugins: 'help,dog,hold'
+          plugins: 'help,dog,hold,pony'
 
       - name: Print outputs
         run: |
