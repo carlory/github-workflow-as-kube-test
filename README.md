@@ -9,7 +9,9 @@ This repository contains a workflow that tests the action on various GitHub even
 The workflow file [`.github/workflows/test-action.yml`](.github/workflows/test-action.yml) triggers on:
 
 - **Push events** to any branch
-- **Pull request events** to any branch
+- **Pull request events** to any branch (opened, synchronize, reopened, and **edited** - including title and body changes)
+- **Pull request review events** (submitted)
+- **Pull request review comment events** (created) - For comments on specific lines in PR diffs
 - **Issue comment events** (created) - The action responds to slash commands like `/help`, `/woof`, `/bark` via its plugin system
 - **Manual trigger** via `workflow_dispatch`
 - **Scheduled** daily at midnight UTC
