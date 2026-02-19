@@ -6,16 +6,21 @@ on:
 
   pull_request:
     branches: [ '**' ]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited   # ⭐ 关键：PR 被修改（含 title）
 
   # PR / Issue 对话区评论
   issue_comment:
     types: [created]
 
-  # PR Review 评论（整体 review）
+  # PR Review 评论
   pull_request_review:
     types: [submitted]
 
-  # PR 代码行评论（diff 行评论）
+  # PR diff 行评论
   pull_request_review_comment:
     types: [created]
 
@@ -33,8 +38,6 @@ on:
   repository_dispatch:
     types: [trigger-test]
 
-
-
 jobs:
   test-action:
     runs-on: ubuntu-latest
@@ -42,6 +45,7 @@ jobs:
       contents: read
       issues: write
       pull-requests: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -59,11 +63,12 @@ jobs:
           echo "Event GUID: ${{ steps.test-action.outputs.event_guid }}"
           echo "Repository: ${{ steps.test-action.outputs.repository }}"
           echo "Plugins enabled: ${{ steps.test-action.outputs.plugins_enabled }}"
+
           if [ -n "${{ steps.test-action.outputs.help_action }}" ]; then
             echo "Help action: ${{ steps.test-action.outputs.help_action }}"
             echo "Issue number: ${{ steps.test-action.outputs.issue_number }}"
           fi
+
           if [ -n "${{ steps.test-action.outputs.dog_posted }}" ]; then
             echo "Dog posted: ${{ steps.test-action.outputs.dog_posted }}"
           fi
-
