@@ -17,11 +17,11 @@ The workflow file [`.github/workflows/test-action.yml`](.github/workflows/test-a
 - **Create/delete events** for branches/tags
 - **Repository dispatch** with type `trigger-test`
 
-The workflow uses the `carlory/github-workflow-as-kube@main` action with the `help` and `dog` plugins enabled.
+The workflow uses the `carlory/github-workflow-as-kube@main` action with the `help`, `dog`, `lgtm`, and `approve` plugins enabled.
 
 ## Supported Commands
 
-The action supports the following slash commands when posted as issue comments:
+The action supports the following slash commands when posted as issue or PR comments:
 
 ### Help Plugin Commands
 
@@ -35,6 +35,28 @@ The action supports the following slash commands when posted as issue comments:
 - `/woof` - Posts a random dog image
 - `/bark` - Posts a random dog image
 - `/this-is-fine` - Posts the "this is fine" meme
+
+### LGTM Plugin Commands
+
+The lgtm plugin manages the `lgtm` label on pull requests.
+
+- `/lgtm` - Adds the "lgtm" label to a PR (cannot be used by the PR author)
+- `/lgtm cancel` - Removes the "lgtm" label from a PR
+- `/remove-lgtm` - Removes the "lgtm" label from a PR (alias for `/lgtm cancel`)
+
+The "lgtm" label is also automatically removed when new commits are pushed to a PR.
+
+A GitHub review with state "approved" acts as `/lgtm`, and a review with state "changes requested" acts as `/lgtm cancel`.
+
+### Approve Plugin Commands
+
+The approve plugin manages the `approved` label on pull requests based on the approvers listed in the
+[`OWNERS`](OWNERS) file.
+
+- `/approve` - Approves a PR and adds the "approved" label (must be listed as an approver in `OWNERS`)
+- `/approve no-issue` - Approves a PR without requiring an associated issue
+- `/approve cancel` - Cancels approval and removes the "approved" label
+- `/remove-approve` - Removes approval (alias for `/approve cancel`)
 
 ## Triggering via Repository Dispatch
 

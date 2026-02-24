@@ -55,7 +55,7 @@ jobs:
         uses: carlory/github-workflow-as-kube@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          plugins: 'help,dog,hold,pony,size,shrug,yuks,cat,wip,stage,merge-commit-blocker,assign'
+          plugins: 'help,dog,hold,pony,size,shrug,yuks,cat,wip,stage,merge-commit-blocker,assign,lgtm,approve'
 
       - name: Print outputs
         run: |
@@ -71,4 +71,14 @@ jobs:
 
           if [ -n "${{ steps.test-action.outputs.dog_posted }}" ]; then
             echo "Dog posted: ${{ steps.test-action.outputs.dog_posted }}"
+          fi
+
+          if [ -n "${{ steps.test-action.outputs.lgtm_action }}" ]; then
+            echo "LGTM action: ${{ steps.test-action.outputs.lgtm_action }}"
+            echo "Issue number: ${{ steps.test-action.outputs.issue_number }}"
+          fi
+
+          if [ -n "${{ steps.test-action.outputs.approve_action }}" ]; then
+            echo "Approve action: ${{ steps.test-action.outputs.approve_action }}"
+            echo "Issue number: ${{ steps.test-action.outputs.issue_number }}"
           fi
